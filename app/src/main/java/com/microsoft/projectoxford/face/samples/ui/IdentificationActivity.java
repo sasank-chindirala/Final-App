@@ -169,7 +169,7 @@ public class IdentificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_identification2);
+        setContentView(R.layout.activity_identification);
 
         detected = false;
 

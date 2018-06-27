@@ -178,7 +178,7 @@ public class IdentificationActivity2 extends AppCompatActivity {
         });*/
 
         if (mPersonGroupListAdapter.personGroupIdList.size() != 0) {
-            setPersonGroupSelected(1);
+            setPersonGroupSelected(0);
         } else {
             setPersonGroupSelected(-1);
         }
