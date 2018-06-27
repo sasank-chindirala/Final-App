@@ -77,17 +77,17 @@ import java.util.UUID;
 
 
 public class IdentificationActivity extends AppCompatActivity {
+
     int x=0;
 
     public void Proceed(View view) {
-        ListView list=(ListView)findViewById(R.id.list_identified_faces);
-        list.
         if(x==1){
-        Intent intent=new Intent(this,IdentificationActivity2.class);
-        startActivity(intent);}
+            Intent intent=new Intent(this,IdentificationActivity2.class);
+            startActivity(intent);
+        }
         else{
             Context context = getApplicationContext();
-            CharSequence text = "Please complete this first";
+            CharSequence text = "Please enter valid Credentials";
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -169,7 +169,7 @@ public class IdentificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_identification);
+        setContentView(R.layout.activity_identification2);
 
         detected = false;
 
@@ -186,7 +186,7 @@ public class IdentificationActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_person_groups_identify);
         mPersonGroupListAdapter = new PersonGroupListAdapter();
         listView.setAdapter(mPersonGroupListAdapter);
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setPersonGroupSelected(position);
@@ -194,7 +194,7 @@ public class IdentificationActivity extends AppCompatActivity {
         });*/
 
         if (mPersonGroupListAdapter.personGroupIdList.size() != 0) {
-            setPersonGroupSelected(0);
+            setPersonGroupSelected(1);
         } else {
             setPersonGroupSelected(-1);
         }
@@ -248,14 +248,13 @@ public class IdentificationActivity extends AppCompatActivity {
 
             if (result != null) {
                 mFaceListAdapter.setIdentificationResult(result);
-                x=1;
 
                 String logString = "Response: Success. ";
                 for (IdentifyResult identifyResult: result) {
                     logString += "Face " + identifyResult.faceId.toString() + " is identified as "
                             + (identifyResult.candidates.size() > 0
-                                    ? identifyResult.candidates.get(0).personId.toString()
-                                    : "Unknown Person")
+                            ? identifyResult.candidates.get(0).personId.toString()
+                            : "Unknown Person")
                             + ". ";
                 }
                 addLog(logString);
@@ -310,6 +309,7 @@ public class IdentificationActivity extends AppCompatActivity {
             if (result != null) {
                 // Set the adapter of the ListView which contains the details of detected faces.
                 mFaceListAdapter = new FaceListAdapter(result);
+                x=1;
                 ListView listView = (ListView) findViewById(R.id.list_identified_faces);
                 listView.setAdapter(mFaceListAdapter);
 

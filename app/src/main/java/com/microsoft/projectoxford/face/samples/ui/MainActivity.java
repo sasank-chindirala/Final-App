@@ -33,10 +33,13 @@
 package com.microsoft.projectoxford.face.samples.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.microsoft.projectoxford.face.samples.R;
 
@@ -76,7 +79,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void identification(View view) {
-        Intent intent = new Intent(this, IdentificationActivity.class);
-        startActivity(intent);
+        EditText Rollo = (EditText) findViewById(R.id.input_rollnumber);
+        String Rollno = Rollo.getText().toString();
+        EditText Course = (EditText) findViewById(R.id.input_COURSE);
+        String course = Course.getText().toString();
+        if (!course.isEmpty() && !Rollno.isEmpty() && Rollno.charAt(2) == '0'&&Rollno.charAt(0)=='1'&&(Rollno.charAt(1)=='5'||Rollno.charAt(1)=='6'||Rollno.charAt(1)=='7')&&Rollno.length()==6&&Rollno.charAt(3)<'9'&&course.charAt(0)<='Z'&&course.charAt(0)>='A'&&course.charAt(1)>='A'&&course.charAt(1)<='Z'&&course.length()<=7){
+            Intent intent = new Intent(this, IdentificationActivity.class);
+            startActivity(intent);
+        } else {
+            Context context = getApplicationContext();
+            CharSequence text = "Please enter valid Credentials";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 }

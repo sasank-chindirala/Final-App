@@ -50,7 +50,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.microsoft.projectoxford.face.FaceServiceClient;
 import com.microsoft.projectoxford.face.contract.Face;
@@ -76,24 +75,9 @@ import java.util.Set;
 import java.util.UUID;
 
 
-public class IdentificationActivity extends AppCompatActivity {
+public class IdentificationActivity2 extends AppCompatActivity {
+
     int x=0;
-
-    public void Proceed(View view) {
-        ListView list=(ListView)findViewById(R.id.list_identified_faces);
-        list.
-        if(x==1){
-        Intent intent=new Intent(this,IdentificationActivity2.class);
-        startActivity(intent);}
-        else{
-            Context context = getApplicationContext();
-            CharSequence text = "Please complete this first";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-    }
 
     // Background task of face identification.
     private class IdentificationTask extends AsyncTask<UUID, String, IdentifyResult[]> {
@@ -169,7 +153,7 @@ public class IdentificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_identification);
+        setContentView(R.layout.activity_identification2);
 
         detected = false;
 
@@ -186,7 +170,7 @@ public class IdentificationActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_person_groups_identify);
         mPersonGroupListAdapter = new PersonGroupListAdapter();
         listView.setAdapter(mPersonGroupListAdapter);
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setPersonGroupSelected(position);
@@ -194,7 +178,7 @@ public class IdentificationActivity extends AppCompatActivity {
         });*/
 
         if (mPersonGroupListAdapter.personGroupIdList.size() != 0) {
-            setPersonGroupSelected(0);
+            setPersonGroupSelected(1);
         } else {
             setPersonGroupSelected(-1);
         }
@@ -217,7 +201,7 @@ public class IdentificationActivity extends AppCompatActivity {
         } else {
             mPersonGroupId = mPersonGroupListAdapter.personGroupIdList.get(0);
             String personGroupName = StorageHelper.getPersonGroupName(
-                    mPersonGroupId, IdentificationActivity.this);
+                    mPersonGroupId, IdentificationActivity2.this);
             refreshIdentifyButtonEnabledStatus();
             textView.setTextColor(Color.BLACK);
             textView.setText(String.format("Person group to use: %s", personGroupName));
@@ -248,14 +232,13 @@ public class IdentificationActivity extends AppCompatActivity {
 
             if (result != null) {
                 mFaceListAdapter.setIdentificationResult(result);
-                x=1;
 
                 String logString = "Response: Success. ";
                 for (IdentifyResult identifyResult: result) {
                     logString += "Face " + identifyResult.faceId.toString() + " is identified as "
                             + (identifyResult.candidates.size() > 0
-                                    ? identifyResult.candidates.get(0).personId.toString()
-                                    : "Unknown Person")
+                            ? identifyResult.candidates.get(0).personId.toString()
+                            : "Unknown Person")
                             + ". ";
                 }
                 addLog(logString);
@@ -540,7 +523,7 @@ public class IdentificationActivity extends AppCompatActivity {
                     String personId =
                             mIdentifyResults.get(position).candidates.get(0).personId.toString();
                     String personName = StorageHelper.getPersonName(
-                            personId, mPersonGroupId, IdentificationActivity.this);
+                            personId, mPersonGroupId, IdentificationActivity2.this);
                     String identity = "Person: " + personName + "\n"
                             + "Confidence: " + formatter.format(
                             mIdentifyResults.get(position).candidates.get(0).confidence);
@@ -565,7 +548,7 @@ public class IdentificationActivity extends AppCompatActivity {
             personGroupIdList = new ArrayList<>();
 
             Set<String> personGroupIds
-                    = StorageHelper.getAllPersonGroupIds(IdentificationActivity.this);
+                    = StorageHelper.getAllPersonGroupIds(IdentificationActivity2.this);
 
             for (String personGroupId: personGroupIds) {
                 personGroupIdList.add(personGroupId);
@@ -604,9 +587,9 @@ public class IdentificationActivity extends AppCompatActivity {
 
             // set the text of the item
             String personGroupName = StorageHelper.getPersonGroupName(
-                    personGroupIdList.get(position), IdentificationActivity.this);
+                    personGroupIdList.get(position), IdentificationActivity2.this);
             int personNumberInGroup = StorageHelper.getAllPersonIds(
-                    personGroupIdList.get(position), IdentificationActivity.this).size();
+                    personGroupIdList.get(position), IdentificationActivity2.this).size();
             ((TextView)convertView.findViewById(R.id.text_person_group)).setText(
                     String.format(
                             "%s (Person count: %d)",
